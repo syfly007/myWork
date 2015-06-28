@@ -1,0 +1,8 @@
+network:
+	add network card:
+		ifconfig et0 192.168.199.214 netmask 255.255.255.0
+		route add default gw 192.168.199.1 et0
+
+	change dns:
+		/etc/resolv.conf 
+
