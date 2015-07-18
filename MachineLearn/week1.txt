@@ -1,0 +1,5 @@
+octave 求逆矩阵
+	pin(A)
+
+没有逆矩阵的矩阵称为奇异矩阵(sigular)或退化矩阵(degerate)
+
