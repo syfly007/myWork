@@ -7,50 +7,57 @@ Y = data(:,n);
 
 X = [ones(m, 1) X];
 W = zeros(n,1);
+Wt = zeros(n,1);
 
 updates = 0;
 find = false;
 
+i=1;
+k=1;
+
 minErrNum = m;
-curErrNum = m;
 
-
+idx = randperm(m);
 while(!find)
+	x = X(idx(i),:);
+	y = Y(idx(i),:);
 
-	idx=randperm(m);
-	for i=1:m
-		i
-		x = X(idx(i),:);
-		y = Y(idx(i),:);
-		if( sign(x*W) != y)
-			Wt = W + eta*y*x';
+	if( sign(x*W) != y)
+		Wt = Wt + eta*y*x'
 
-			curErrNum=0;
-			for j=1:m
-				xt = X(j,:);
-				yt = Y(j,:);
-				if( sign(xt*Wt) != yt)
-					curErrNum++;
-				end
-			end
+		curErrNum = checkErrNum(X,Y,Wt)
 
-			if(curErrNum < minErrNum)
-				W = Wt;
-				minErrNum = curErrNum
-				updates++
-				if(updates == maxUps)
-					find = true;
-					break;	
-				end
-			end
-
-			break;
+		if(curErrNum < minErrNum)
+			minErrNum = curErrNum
+			W = Wt
 		end
 
-		if(i == m)
-			find = true;
-		end
+		updates++
+		k=1;
+		idx = randperm(m);
+	else
+		k++;
 	end
+
+	if(k == m || updates == maxUps)
+		find = true;
+	end
+
+	i = mod(i,400)+1;
+end
 end
 
+
+
+function [errNum] = checkErrNum(X,Y,W)
+	errNum = 0;
+	m = size(Y);
+
+	for i=1:m
+		x = X(i,:);
+		y = Y(i,:);
+		if(sign(x*W) != y)
+			errNum++;
+		end
+	end
 end

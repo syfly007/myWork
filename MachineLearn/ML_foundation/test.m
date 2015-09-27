@@ -7,6 +7,7 @@ eta=1;
 % for i=1:iters
 % 	data = data(randperm(m),:);
 % 	[w,ups]=pla(data,eta);
+% 	ups
 % 	avgUps=avgUps+ups;
 % end
 
@@ -17,6 +18,8 @@ data = load('train2.dat');
 [W, updates]=pocket(data,eta,maxUps);
 W
 updates
+
+
 
 % for i=1:iters
 % 	data = data(randperm(m),:);
